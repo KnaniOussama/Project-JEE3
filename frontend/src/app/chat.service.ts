@@ -12,6 +12,8 @@ export class ChatService {
   constructor(private http: HttpClient) { }
 
   sendMessage(message: string): Observable<string> {
+    const token = localStorage.getItem('token');
+
     return new Observable<string>(observer => {
       const controller = new AbortController();
 
@@ -19,7 +21,8 @@ export class ChatService {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'text/event-stream'
+          'Accept': 'text/event-stream',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ message }),
         signal: controller.signal
